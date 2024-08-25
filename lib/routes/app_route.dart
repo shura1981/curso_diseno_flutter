@@ -27,6 +27,11 @@ class AppRoute {
         icon: Icons.handshake,
         name: 'Animación 4',
         screen: const CuadradoAnimadoPage()),
+    MenuRouter(
+        route: SliderShowScreen.nameRoute,
+        icon: Icons.slideshow,
+        name: 'SliderShowScreen',
+        screen: const SliderShowScreen()),
   ];
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
     return MaterialPageRoute(builder: (context) => const NotFoundScreen());
