@@ -3,6 +3,7 @@ import 'package:taller1/widgets/square.dart';
 
 class CuadradoAnimadoPage extends StatefulWidget {
   const CuadradoAnimadoPage({super.key});
+   static const nameRoute = '/cuadradoAnimado';
 
   @override
   State<CuadradoAnimadoPage> createState() => _CuadradoAnimadoPageState();
@@ -62,6 +63,9 @@ class _CuadradoAnimadoPageState extends State<CuadradoAnimadoPage>
     _controller.forward();
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Cuadrado Animado'),
+      ),
       body: Center(
         child: AnimatedBuilder(
           builder: (context, childSquare) {

@@ -5,6 +5,7 @@ import 'package:taller1/widgets/square.dart';
 
 class AnimationScreen extends StatefulWidget {
   const AnimationScreen({super.key});
+  static const nameRoute = '/animation';
 
   @override
   State<AnimationScreen> createState() => _AnimationScreenState();
@@ -23,7 +24,6 @@ class _AnimationScreenState extends State<AnimationScreen>
 
   @override
   void initState() {
-    
     _controller = AnimationController(
         duration: const Duration(milliseconds: 4000), vsync: this)
       ..addListener(() {
@@ -43,7 +43,7 @@ class _AnimationScreenState extends State<AnimationScreen>
             parent: _controller,
             curve: const Interval(0, 0.25, curve: Curves.easeOut)));
 
-   _animationOpacityFadeOut = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _animationOpacityFadeOut = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: _controller,
             curve: const Interval(0.75, 1.0, curve: Curves.easeOut)));
@@ -51,9 +51,8 @@ class _AnimationScreenState extends State<AnimationScreen>
     _animationMovieRight = Tween<double>(begin: 0.0, end: 100.0)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
-_animationScale=  Tween<double>(begin: 1.0, end: 2.0)
+    _animationScale = Tween<double>(begin: 1.0, end: 2.0)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-
 
     super.initState();
   }
@@ -68,6 +67,9 @@ _animationScale=  Tween<double>(begin: 1.0, end: 2.0)
   Widget build(BuildContext context) {
     _controller.forward();
     return Scaffold(
+        appBar: AppBar(
+          title: const Text('Animación 1'),
+        ),
         body: AnimatedBuilder(
             animation: _animation,
             builder: (context, childRectangle) {
@@ -76,12 +78,13 @@ _animationScale=  Tween<double>(begin: 1.0, end: 2.0)
                 child: Transform.rotate(
                     angle: _animation.value,
                     child: Opacity(
-                        opacity: _animationOpacity.value -  _animationOpacityFadeOut.value, child: Transform.scale(
-                          scale: _animationScale.value,
-                          child: childRectangle))),
+                        opacity: _animationOpacity.value -
+                            _animationOpacityFadeOut.value,
+                        child: Transform.scale(
+                            scale: _animationScale.value,
+                            child: childRectangle))),
               );
             },
-            child: const  SquareCenter()));
+            child: const SquareCenter()));
   }
 }
-

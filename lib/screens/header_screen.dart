@@ -5,6 +5,7 @@ import 'package:taller1/widgets/widgets.dart';
 
 class HeaderScreen extends StatelessWidget {
   const HeaderScreen({Key? key}) : super(key: key);
+   static const nameRoute = '/header-screen';
 
   @override
   Widget build(BuildContext context) {
