@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
  
 
-import 'provider/page_view_provider.dart';
+import 'widgets/custom_slider/provider/page_view_provider.dart';
 import 'routes/app_route.dart';
 
 
@@ -13,11 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => PageViewProvider()),
-      ],
-      child: const _MaterialApp());
+    return const _MaterialApp();
   }
 }
 
@@ -46,7 +42,7 @@ class _MaterialApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        useMaterial3: false,
       ),
       initialRoute: AppRoute.initialRoute,
       routes: AppRoute.getRoutes(),
