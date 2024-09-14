@@ -32,6 +32,11 @@ class AppRoute {
         icon: Icons.slideshow,
         name: 'SliderShowScreen',
         screen: const SliderShowScreen()),
+    MenuRouter(
+        route: PinteresScreen.nameRoute,
+        icon: Icons.slideshow,
+        name: 'Pinteres',
+        screen: const PinteresScreen()),
   ];
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
     return MaterialPageRoute(builder: (context) => const NotFoundScreen());
