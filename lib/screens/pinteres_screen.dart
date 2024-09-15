@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/pinteres_menu/widget/pinteres_menu.dart';
 
@@ -10,12 +11,15 @@ class PinteresScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('PinteresScreen'),
-      ),
-      body: Stack(
-        children: [PinteresGrid(), _PinterestMenuBottom()],
+    return ChangeNotifierProvider(
+      create: (_) => _VisibleMenuProvider(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('PinteresScreen'),
+        ),
+        body: Stack(
+          children: [const PinteresGrid(), _PinterestMenuBottom()],
+        ),
       ),
     );
   }
@@ -25,23 +29,85 @@ class _PinterestMenuBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final anchoPantalla = MediaQuery.of(context).size.width;
+    final mostrar = Provider.of<_VisibleMenuProvider>(context).isVisible;
+    final menuItems = [
+      PinterestButton(
+          onPressed: () {
+            print('Icon pie chart');
+          },
+          icon: Icons.pie_chart),
+      PinterestButton(
+          onPressed: () {
+            print('Icon search');
+          },
+          icon: Icons.search),
+      PinterestButton(
+          onPressed: () {
+            print('Icon notifications');
+          },
+          icon: Icons.notifications),
+      PinterestButton(
+          onPressed: () {
+            print('Icon supervised_user_circle');
+          },
+          icon: Icons.supervised_user_circle),
+    ];
     return Positioned(
         bottom: 30,
-        child: SizedBox(
-          width: anchoPantalla,
-          child: Align(child: PinteresMenu()),
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 250),
+          opacity: mostrar ? 1 : 0,
+          child: mostrar
+              ? SizedBox(
+                  width: anchoPantalla,
+                  child: Align(
+                      child: PinteresMenu(
+                    menuItems: menuItems,
+                    activeColor: Colors.blue,
+                    inactiveColor: Colors.grey,
+                  )),
+                )
+              : const SizedBox(),
         ));
   }
 }
 
-class PinteresGrid extends StatelessWidget {
-  PinteresGrid({super.key});
+class PinteresGrid extends StatefulWidget {
+  const PinteresGrid({super.key});
 
+  @override
+  State<PinteresGrid> createState() => _PinteresGridState();
+}
+
+class _PinteresGridState extends State<PinteresGrid> {
   final List<int> items = List.generate(100, (index) => index);
+  final scrollController = ScrollController();
+  double scrollPreview = 0;
+
+  @override
+  void initState() {
+    scrollController.addListener(() {
+      final scroll = scrollController.offset;
+      if (scroll > scrollPreview && scroll > 150) {
+        Provider.of<_VisibleMenuProvider>(context, listen: false).ocultar();
+      } else {
+        Provider.of<_VisibleMenuProvider>(context, listen: false).mostrar();
+      }
+      scrollPreview = scroll;
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StaggeredGridView.countBuilder(
+      controller: scrollController,
       crossAxisCount: 4,
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) => _PinteresItem(
@@ -75,5 +141,19 @@ class _PinteresItem extends StatelessWidget {
             child: Text('$index'),
           ),
         ));
+  }
+}
+
+class _VisibleMenuProvider with ChangeNotifier {
+  bool isVisible = true;
+
+  void mostrar() {
+    isVisible = true;
+    notifyListeners();
+  }
+
+  void ocultar() {
+    isVisible = false;
+    notifyListeners();
   }
 }
