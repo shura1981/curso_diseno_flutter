@@ -42,6 +42,12 @@ class AppRoute {
         icon: Icons.slideshow,
         name: 'Emergency Layout',
         screen: const EmergencyLayoutScreen()),
+    MenuRouter(
+        route: SliderListScreen.nameRoute,
+        icon: Icons.slideshow,
+        name: 'Slider List Screen',
+        screen: const SliderListScreen()),
+
   ];
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
     return MaterialPageRoute(builder: (context) => const NotFoundScreen());

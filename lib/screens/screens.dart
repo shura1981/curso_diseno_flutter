@@ -6,3 +6,4 @@ export 'package:taller1/screens/not_found_screen.dart';
 export 'package:taller1/screens/slide_show_screen.dart';
 export 'package:taller1/screens/pinteres_screen.dart';
 export 'package:taller1/screens/emergency_layout/emergency_layout.dart';
+export 'package:taller1/screens/slider_list_page.dart';
