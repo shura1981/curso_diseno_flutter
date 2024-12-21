@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
- 
-
-import 'widgets/custom_slider/provider/page_view_provider.dart';
 import 'routes/app_route.dart';
 
 

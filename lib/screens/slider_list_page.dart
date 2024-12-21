@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SliderListScreen extends StatelessWidget {
   static const String nameRoute = '/slider_list';
@@ -7,18 +8,65 @@ class SliderListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _MainScroll(),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: _BotonNewList(),
-          ),
-        ],
+    return ChangeNotifierProvider(
+      create: (_) => _SliderListProvider(),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            body: Stack(
+              children: [
+                _MainScroll(),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Consumer<_SliderListProvider>(
+                    builder: (context, provider, child) {
+                      print('provider.showElevated: ${provider.showElevated}');
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.yellow,
+                          borderRadius: BorderRadius.circular(100),
+                          boxShadow: provider.showElevated
+                              ? const [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 10,
+                                    offset: Offset(0, 5),
+                                  ),
+                                ]
+                              : [],
+                        ),
+                        child: IconButton(
+                            color: const Color.fromARGB(255, 24, 24, 24),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+                      );
+                    }
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: _BotonNewList(),
+                ),
+              ],
+            ),
+          );
+        }
       ),
     );
+  }
+}
+
+class _SliderListProvider extends ChangeNotifier {
+  bool _showElevated = false;
+  bool get showElevated => _showElevated;
+
+  set showElevated(bool value) {
+    _showElevated = value;
+    notifyListeners();
   }
 }
 
@@ -42,12 +90,11 @@ class _BotonNewList extends StatelessWidget {
             child: Row(
               children: [
                 Text("Crear nueva tarea",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  letterSpacing: 3
-                )),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 3)),
                 Icon(
                   Icons.add,
                   size: 40,
@@ -165,9 +212,13 @@ class _ListItem extends StatelessWidget {
   }
 }
 
-class _MainScroll extends StatelessWidget {
+class _MainScroll extends StatefulWidget {
+  @override
+  State<_MainScroll> createState() => _MainScrollState();
+}
 
-final items = [
+class _MainScrollState extends State<_MainScroll> {
+  final items = [
     const _ListItem('Orange', Color(0xffF08F66)),
     const _ListItem('Family', Color(0xffF2A38A)),
     const _ListItem('Subscriptions', Color(0xffF7CDD5)),
@@ -178,9 +229,32 @@ final items = [
     const _ListItem('Books', Color(0xffFCEBAF)),
   ];
 
+  late ScrollController? _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+   // Ejecutar después de que el widget esté completamente montado
+   super.initState();
+    _controller = ScrollController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<_SliderListProvider>(context, listen: false);
+      _controller?.addListener(() {
+        final offset = _controller!.offset;
+        if (offset > 150) {
+          provider.showElevated = true;
+        } else {
+          provider.showElevated = false;
+        }
+      });
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  CustomScrollView(
+    return CustomScrollView(
+      controller: _controller,
       slivers: [
         // SliverAppBar(
         //   floating: true,
@@ -189,17 +263,16 @@ final items = [
         //   title: _Titulo(),
         // ),
         SliverPersistentHeader(
-          floating: true,
-          delegate: _SliverCustomHeaderDelegate(
-            minHeight: 170,
-            maxHeight: 200,
-            child: Container(
-              color: Colors.yellow,
-              padding: const EdgeInsets.all(20),
-              alignment: Alignment.centerLeft,
-              child: FittedBox(child: _Titulo())), 
-          )
-          ),
+            floating: true,
+            delegate: _SliverCustomHeaderDelegate(
+              minHeight: 170,
+              maxHeight: 200,
+              child: Container(
+                  color: Colors.yellow,
+                  padding: const EdgeInsets.all(20),
+                  alignment: Alignment.centerLeft,
+                  child: FittedBox(child: _Titulo())),
+            )),
         SliverList(
           delegate: SliverChildListDelegate([
             ...items,
@@ -211,7 +284,6 @@ final items = [
     );
   }
 }
-
 
 class _SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double minHeight;
@@ -240,7 +312,7 @@ class _SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(covariant _SliverCustomHeaderDelegate oldDelegate) {
     // Comparamos explícitamente las propiedades de esta clase
     return maxHeight != oldDelegate.maxHeight ||
-           minHeight != oldDelegate.minHeight ||
-           child != oldDelegate.child;
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }

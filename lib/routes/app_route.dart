@@ -47,6 +47,11 @@ class AppRoute {
         icon: Icons.slideshow,
         name: 'Slider List Screen',
         screen: const SliderListScreen()),
+    MenuRouter(
+        route: AnimateDoScreen.nameRoute,
+        icon: Icons.animation,
+        name: 'Animate Do',
+        screen: const AnimateDoScreen()),
 
   ];
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
