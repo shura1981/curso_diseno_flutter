@@ -133,8 +133,6 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-  
     return ChangeNotifierProvider(
       create: (_) => _NotificationModel(),
       child: Scaffold(
@@ -160,9 +158,12 @@ class BotonFlotante extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-                final provider = Provider.of<_NotificationModel>(context,
-                      listen: false);
-                  provider.increment();
+        final provider =
+            Provider.of<_NotificationModel>(context, listen: false);
+        provider.increment();
+        if (provider.number >= 2) {
+          provider.animationController.forward(from: 0.0);
+        }
       },
       child: const FaIcon(FontAwesomeIcons.play),
     );
@@ -178,28 +179,27 @@ class BottomNavigation extends StatelessWidget {
       selectedItemColor: Theme.of(context).primaryColor,
       unselectedItemColor: const Color.fromARGB(255, 53, 53, 53),
       items: [
-          BottomNavigationBarItem(
+        BottomNavigationBarItem(
           icon: Stack(
             children: [
               const FaIcon(FontAwesomeIcons.bell),
               Positioned(
                 top: 0.0,
                 right: 0.0,
-                child: Consumer(
-                  builder: (context, _NotificationModel value, child) {
-                    return Container(
-                      width: 14,
-                      height: 14,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.redAccent,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(value._number.toString(),
-                          style: const TextStyle(color: Colors.white, fontSize: 7)),
-                    );
-                  }
-                ),
+                child: Consumer<_NotificationModel>(
+                    builder: (context, _NotificationModel value, child) {
+                  return BounceInDown(
+                      from: 10,
+                      animate: (value.number > 0),
+                      child: Bounce(
+                        from: 10,
+                        controller: (controller) {
+                          value.animationController = controller;
+                        },
+                        child: _CircularNotification(
+                            value: value.number.toString()),
+                      ));
+                }),
               )
             ],
           ),
@@ -213,7 +213,6 @@ class BottomNavigation extends StatelessWidget {
           icon: Icon(Icons.bubble_chart),
           label: 'Gráficos',
         ),
-      
         const BottomNavigationBarItem(
           icon: Icon(Icons.supervised_user_circle),
           label: 'Usuarios',
@@ -223,9 +222,39 @@ class BottomNavigation extends StatelessWidget {
   }
 }
 
+class _CircularNotification extends StatelessWidget {
+  final String value;
+  const _CircularNotification({
+    this.value = "0",
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 14,
+      height: 14,
+      alignment: Alignment.center,
+      decoration: const BoxDecoration(
+        color: Colors.redAccent,
+        shape: BoxShape.circle,
+      ),
+      child:
+          Text(value, style: const TextStyle(color: Colors.white, fontSize: 7)),
+    );
+  }
+}
+
 class _NotificationModel extends ChangeNotifier {
   int _number = 0;
   int get number => _number;
+
+  AnimationController? _animationController;
+
+  AnimationController get animationController => _animationController!;
+
+  set animationController(AnimationController value) {
+    _animationController = value;
+  }
 
   void increment() {
     _number++;
