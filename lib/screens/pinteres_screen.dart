@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
+import '../theme/styles/card_custom_style.dart';
 import '../widgets/pinteres_menu/widget/pinteres_menu.dart';
 
 class PinteresScreen extends StatelessWidget {
@@ -30,6 +31,7 @@ class _PinterestMenuBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     final anchoPantalla = MediaQuery.of(context).size.width;
     final mostrar = Provider.of<_VisibleMenuProvider>(context).isVisible;
+
     final menuItems = [
       PinterestButton(
           onPressed: () {

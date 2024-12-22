@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:taller1/widgets/pinteres_menu/provider/pinteres_menu_provider.dart';
 
+import '../../../theme/styles/card_custom_style.dart';
+
 class PinterestButton {
   final Function onPressed;
   final IconData icon;
@@ -45,11 +47,17 @@ class _PinterestMenuBackground extends StatelessWidget {
   final Widget child;
   @override
   Widget build(BuildContext context) {
+    CardCustomStyle cardCustomStyle =
+        Theme.of(context).extension<CardCustomStyle>()!;
+
+    Color color = cardCustomStyle.color;
+    Color backgroundColor = cardCustomStyle.backgroundColor;
+
     return Container(
       width: 250,
       height: 60,
       decoration: BoxDecoration(
-        color: Provider.of<MenuModel>(context).backgroundColor,
+        color:backgroundColor,
         borderRadius: BorderRadius.circular(100),
         boxShadow: const [
           BoxShadow(
@@ -89,6 +97,11 @@ class _PinterestMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<MenuModel>(context);
 
+        CardCustomStyle cardCustomStyle =
+        Theme.of(context).extension<CardCustomStyle>()!;
+
+    Color color = cardCustomStyle.color;
+
     return GestureDetector(
       onTap: () {
         provider.itemSeleccionado = index;
@@ -100,7 +113,7 @@ class _PinterestMenuButton extends StatelessWidget {
         size: (provider.itemSeleccionado == index) ? 30 : 25,
         color: (provider.itemSeleccionado == index)
             ? Provider.of<MenuModel>(context).activeColor
-            : Provider.of<MenuModel>(context).inactiveColor,
+            : color,
       ),
     );
   }
