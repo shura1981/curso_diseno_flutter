@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
-import '../theme/styles/card_custom_style.dart';
 import '../widgets/pinteres_menu/widget/pinteres_menu.dart';
 
 class PinteresScreen extends StatelessWidget {

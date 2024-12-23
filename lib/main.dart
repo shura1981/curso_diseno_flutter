@@ -36,7 +36,6 @@ class _MaterialApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: provider.currentTheme,
-      darkTheme: provider.isSytemTheme ? ThemeChanger.dark : null,
       initialRoute: AppRoute.initialRoute,
       routes: AppRoute.getRoutes(),
       onGenerateRoute: AppRoute.onGenerateRoute,

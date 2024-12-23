@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../routes/app_route.dart';
+import '../theme/styles/custom_colors.dart';
 import '../theme/themechanger.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Inicio'),
+        title: Text('Inicio', style: TextStyle(color: Theme.of(context).primaryColor),),
       ),
       drawer: const _MenuDrawer(),
       body: const Padding(
@@ -30,7 +31,8 @@ class _ListaOpciones extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider= Provider.of<ThemeChanger>(context);
+      CustomColors cardCustomStyle =
+        Theme.of(context).extension<CustomColors>()!;
     return ListView.separated(
       physics: const BouncingScrollPhysics(),
       separatorBuilder: (context, index) => const Divider(
@@ -39,9 +41,9 @@ class _ListaOpciones extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = AppRoute.menuOptions[index];
         return ListTile(
-          leading: Icon(item.icon, color: provider.currentTheme!.primaryColor,),
+          leading: Icon(item.icon, color: cardCustomStyle.primaryColor),
           title: Text(item.name),
-          trailing: !isMenuDrawer ? Icon(Icons.chevron_right,  color: provider.currentTheme!.primaryColor) : null,
+          trailing: !isMenuDrawer ? Icon(Icons.chevron_right, color: cardCustomStyle.primaryColor ) : null,
           onTap: () {
             if (isMenuDrawer) {
               Navigator.pop(context);

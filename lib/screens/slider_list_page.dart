@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../theme/styles/custom_colors.dart';
+
 class SliderListScreen extends StatelessWidget {
   static const String nameRoute = '/slider_list';
 
@@ -160,7 +162,7 @@ class _Titulo extends StatelessWidget {
             const Text(
               'Lista de tareas',
               style: TextStyle(
-                color: Color(0xffD93A30),
+                color: Color.fromARGB(255, 255, 255, 255),
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
@@ -253,6 +255,8 @@ class _MainScrollState extends State<_MainScroll> {
 
   @override
   Widget build(BuildContext context) {
+        CustomColors cardCustomStyle =
+        Theme.of(context).extension<CustomColors>()!;
     return CustomScrollView(
       controller: _controller,
       slivers: [
@@ -268,7 +272,7 @@ class _MainScrollState extends State<_MainScroll> {
               minHeight: 170,
               maxHeight: 200,
               child: Container(
-                  color: Colors.yellow,
+                  color: cardCustomStyle.primaryColor,
                   padding: const EdgeInsets.all(20),
                   alignment: Alignment.centerLeft,
                   child: FittedBox(child: _Titulo())),
