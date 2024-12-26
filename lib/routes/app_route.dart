@@ -52,6 +52,11 @@ class AppRoute {
         icon: Icons.animation,
         name: 'Animate Do',
         screen: const AnimateDoScreen()),
+    MenuRouter(
+        route: ShopScreen.nameRoute,
+        icon: Icons.shop,
+        name: 'Shop',
+        screen: const ShopScreen()),
 
   ];
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
