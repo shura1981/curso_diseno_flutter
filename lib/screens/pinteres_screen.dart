@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
+import '../helpers/responsive.dart';
 import '../widgets/pinteres_menu/widget/pinteres_menu.dart';
 
 class PinteresScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class PinteresScreen extends StatelessWidget {
           title: const Text('PinteresScreen'),
         ),
         body: Stack(
-          children: [const PinteresGrid(), _PinterestMenuBottom()],
+          children: [const Center(child: PinteresGrid()), _PinterestMenuBottom()],
         ),
       ),
     );
@@ -30,6 +31,15 @@ class _PinterestMenuBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     final anchoPantalla = MediaQuery.of(context).size.width;
     final mostrar = Provider.of<_VisibleMenuProvider>(context).isVisible;
+int extraAnchoPantalla= 0;
+
+if(Responsive.isTablet(context)){
+  extraAnchoPantalla = 270;
+}
+
+if(Responsive.isDesktop(context)){  
+  extraAnchoPantalla = 290;
+}
 
     final menuItems = [
       PinterestButton(
@@ -60,7 +70,7 @@ class _PinterestMenuBottom extends StatelessWidget {
           opacity: mostrar ? 1 : 0,
           child: mostrar
               ? SizedBox(
-                  width: anchoPantalla,
+                  width: anchoPantalla-extraAnchoPantalla,
                   child: Align(
                       child: PinteresMenu(
                     menuItems: menuItems,
@@ -107,17 +117,35 @@ class _PinteresGridState extends State<PinteresGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return StaggeredGridView.countBuilder(
-      controller: scrollController,
-      crossAxisCount: 4,
-      itemCount: items.length,
-      itemBuilder: (BuildContext context, int index) => _PinteresItem(
-        index: index,
+    int countCols = 2;
+    bool showPadding = false;
+
+    if(Responsive.isTablet(context)){
+      countCols = 3;
+    }
+
+    if(Responsive.isDesktop(context)){
+      countCols = 4;
+    }
+
+    if(Responsive.isMobile(context)){
+      showPadding = true;
+    }
+
+    return Padding(
+      padding: showPadding ? const EdgeInsets.all(5.0) : const EdgeInsets.all(20.0),
+      child: StaggeredGridView.countBuilder(
+        controller: scrollController,
+        crossAxisCount: countCols,
+        itemCount: items.length,
+        itemBuilder: (BuildContext context, int index) => _PinteresItem(
+          index: index,
+        ),
+        staggeredTileBuilder: (int index) =>
+            StaggeredTile.count(1, index.isEven ? 1 : 2),
+        mainAxisSpacing: 4.0,
+        crossAxisSpacing: 4.0,
       ),
-      staggeredTileBuilder: (int index) =>
-          StaggeredTile.count(2, index.isEven ? 2 : 3),
-      mainAxisSpacing: 4.0,
-      crossAxisSpacing: 4.0,
     );
   }
 }
@@ -139,7 +167,8 @@ class _PinteresItem extends StatelessWidget {
         child: Center(
           child: CircleAvatar(
             backgroundColor: Colors.white,
-            child: Text('$index'),
+            child: Text('$index',
+                style: TextStyle(color: Theme.of(context).primaryColor)),
           ),
         ));
   }

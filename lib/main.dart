@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'controllers/menu_app_controller.dart';
+import 'provider/current_view_provider.dart';
 import 'routes/app_route.dart';
 import 'share_preference/preferences.dart';
 import 'theme/themechanger.dart';
@@ -11,6 +13,8 @@ void main() async {
     providers: [
       ChangeNotifierProvider(
           create: (_) => ThemeChanger(optionTheme: Preferences.optionTheme)),
+      ChangeNotifierProvider(create: (_) => CurrentViewProvider()),
+      ChangeNotifierProvider(create: (_) => MenuAppController()),
     ],
     child: const MyApp(),
   ));
@@ -31,7 +35,7 @@ class _MaterialApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   final provider= Provider.of<ThemeChanger>(context);
+    final provider = Provider.of<ThemeChanger>(context);
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,

@@ -16,12 +16,6 @@ class EmergencyLayoutScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () => Navigator.pushNamed(context, '/'),
-            icon: const Icon(FontAwesomeIcons.ellipsisVertical),
-          )
-        ],
       ),
       body: Stack(
         children: [

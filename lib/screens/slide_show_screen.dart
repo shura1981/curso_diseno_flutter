@@ -7,11 +7,34 @@ class SliderShowScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: const Text('SliderShowScreen'),
       ),
-      body:  const Column(
+      body:  LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth > 800) {
+            return  Center(
+              child: SizedBox(
+                width: screenWidth*0.7,
+                child: const AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Row(
+                          children: [
+                            Expanded(
+                  child: _SliderOne(),
+                            ),
+                  Expanded(
+                  child: _SliderTwo(),
+                            ),
+                          ],
+                        ),
+                ),
+              ),
+            );
+          } else {
+            return const Column(
         children: [
           Expanded(
             child: _SliderOne(),
@@ -20,6 +43,9 @@ class SliderShowScreen extends StatelessWidget {
             child: _SliderTwo(),
           ),
         ],
+      );
+          }
+        },
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taller1/screens/screens.dart';
 
 import '../retos/cuadrado.dart';
-import 'menu_router.dart';
+import '../models/menu_router.dart';
 
 class AppRoute {
   static const initialRoute = '/';
