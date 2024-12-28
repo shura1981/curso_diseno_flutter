@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../helpers/responsive.dart';
 import '../provider/current_view_provider.dart';
 import '../routes/app_route.dart';
-import '../screens/home_screen.dart';
 import '../theme/styles/custom_colors.dart';
 import '../theme/themechanger.dart';
 
@@ -21,6 +20,7 @@ class ListaOpciones extends StatelessWidget {
     final providerViewCurrent =
         Provider.of<CurrentViewProvider>(context, listen: false);
     return ListView.separated(
+      padding: const EdgeInsets.only(top: 0),
       physics: const BouncingScrollPhysics(),
       separatorBuilder: (context, index) => const Divider(),
       itemCount: AppRoute.menuOptions.length,
@@ -61,10 +61,14 @@ class MenuDrawer extends StatelessWidget {
         borderRadius: BorderRadius.only(
             topRight: Radius.circular(0), bottomRight: Radius.circular(0)),
       ),
-      child: Column(
-        children: [
-          SafeArea(
-            child: Container(
+      child: SafeArea(
+        top: true,
+        bottom: true,
+        left: false,
+        right: false,
+        child: Column(
+          children: [
+            Container(
               width: double.infinity,
               height: 150,
               padding: const EdgeInsets.all(5),
@@ -80,54 +84,48 @@ class MenuDrawer extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          const Expanded(child: ListaOpciones(true)),
-          ListTile(
-            leading: const Icon(Icons.lightbulb),
-            title: const Text('Dark Mode'),
-            trailing: Switch.adaptive(
-              value: themeProvider.isDarkMode,
-              onChanged: (value) {
-                value
-                    ? themeProvider.setDarkMode()
-                    : themeProvider.setLightMode();
-              },
+             const Expanded(child: ListaOpciones(true)),
+            ListTile(
+              leading: const Icon(Icons.lightbulb),
+              title: const Text('Dark Mode'),
+              trailing: Switch.adaptive(
+                value: themeProvider.isDarkMode,
+                onChanged: (value) {
+                  value
+                      ? themeProvider.setDarkMode()
+                      : themeProvider.setLightMode();
+                },
+              ),
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.thermostat),
-            title: const Text('Custom Theme'),
-            trailing: Switch.adaptive(
-              value: themeProvider.isCustomTheme,
-              onChanged: (value) {
-                if (value) {
-                  themeProvider.setCustom();
-                } else {
-                  themeProvider.setLightMode();
-                }
-              },
+            ListTile(
+              leading: const Icon(Icons.thermostat),
+              title: const Text('Custom Theme'),
+              trailing: Switch.adaptive(
+                value: themeProvider.isCustomTheme,
+                onChanged: (value) {
+                  if (value) {
+                    themeProvider.setCustom();
+                  } else {
+                    themeProvider.setLightMode();
+                  }
+                },
+              ),
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Sytem Theme'),
-            trailing: Switch.adaptive(
-              value: themeProvider.isSytemTheme,
-              onChanged: (value) {
-                if (value) {
-                  themeProvider.setSystemMode();
-                } else {
-                  themeProvider.setLightMode();
-                }
-              },
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Sytem Theme'),
+              trailing: Switch.adaptive(
+                value: themeProvider.isSytemTheme,
+                onChanged: (value) {
+                  if (value) {
+                    themeProvider.setSystemMode();
+                  } else {
+                    themeProvider.setLightMode();
+                  }
+                },
+              ),
             ),
-          ),
-          SafeArea(
-            bottom: true,
-            top: false,
-            left: false,
-            right: false,
-            child: ListTile(
+            ListTile(
               leading: const Icon(Icons.exit_to_app),
               title: const Text('Cerrar'),
               onTap: () {
@@ -135,8 +133,8 @@ class MenuDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

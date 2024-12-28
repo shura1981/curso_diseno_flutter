@@ -36,5 +36,10 @@ mixin class ColorsTheme {
   static Color themeBackgroundScaffoldCustom =
       const Color.fromARGB(255, 255, 87, 34);
 
+      // custom color card
+  static Color themeCustomColorCard = const Color.fromARGB(255, 223, 223, 223);
+  static Color themeCustomColorCardDark = const Color.fromARGB(255, 41, 41, 41);
+  static Color themeCustomColorCardCustom = const Color.fromARGB(255, 255, 87, 34);
+
 
 }

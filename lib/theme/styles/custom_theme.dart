@@ -16,6 +16,7 @@ class CustomTheme {
         primaryColor: ColorsTheme.themePrimaryLight,
         accentColor: ColorsTheme.themeSecondaryColorLightScheme,
         secondaryColor: ColorsTheme.themePrimaryColorLightDark,
+        customColorCard: ColorsTheme.themeCustomColorCard,
       ),
     ],
     primaryColor: ColorsTheme.themePrimaryLight,
@@ -39,10 +40,12 @@ class CustomTheme {
       thickness: 1,
     ),
     textTheme: const TextTheme(
+      bodyMedium: TextStyle(color: Colors.black87),
       displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
       displayMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
       displaySmall: TextStyle(fontSize: 14, color: Colors.black87),
     ),
+    
   );
 
   static ThemeData dark = ThemeData.dark().copyWith(
@@ -56,6 +59,7 @@ class CustomTheme {
           primaryColor: ColorsTheme.themePrimaryDark,
           accentColor: ColorsTheme.themePrimaryLight,
           secondaryColor: ColorsTheme.themePrimaryColorDark,
+          customColorCard: ColorsTheme.themeCustomColorCardDark,
         ),
       ],
       primaryColor: ColorsTheme.themePrimaryDark,
@@ -83,6 +87,7 @@ class CustomTheme {
         backgroundColor: Color.fromARGB(255, 63, 63, 63),
       ),
       textTheme: const TextTheme(
+           bodyMedium: TextStyle(color: Colors.white),
         displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         displayMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         displaySmall:
@@ -92,7 +97,6 @@ class CustomTheme {
  // Obtener un tema personalizado basado en el brillo del sistema
   static ThemeData getCustom(Brightness brightness) {
     // Detectar si el sistema está en modo oscuro
-    print(brightness);
     final baseTheme = brightness == Brightness.dark ? dark : light;
     // Modificar solo los colores primarios y secundarios
     return baseTheme.copyWith(
@@ -106,6 +110,7 @@ class CustomTheme {
           primaryColor: ColorsTheme.themePrimaryCustom,
           accentColor: ColorsTheme.themeSecondaryColorCustomScheme,
           secondaryColor: ColorsTheme.themeSecondaryColorCustomScheme,
+          customColorCard: ColorsTheme.themeCustomColorCardCustom,
         ),
       ],
       primaryColor: ColorsTheme.themePrimaryColorCustomDark,
