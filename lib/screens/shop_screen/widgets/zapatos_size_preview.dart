@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ZapatosSizePreview extends StatelessWidget {
+import '../models/shoes_provider.dart';
 
+class ZapatosSizePreview extends StatelessWidget {
   final bool isFullScreen;
   const ZapatosSizePreview({super.key, this.isFullScreen = false});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.all( !isFullScreen ? 30 : 0),
+      padding: EdgeInsets.all(!isFullScreen ? 30 : 0),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
           color: const Color(0xffF8D468),
-          borderRadius: !isFullScreen ?
-           const BorderRadius.all( Radius.circular(50)) : const BorderRadius.only(
-             bottomLeft: Radius.circular(50),
-             bottomRight: Radius.circular(50),
-             topLeft: Radius.circular(40),
-             topRight: Radius.circular(40),
-           ),
+          borderRadius: !isFullScreen
+              ? const BorderRadius.all(Radius.circular(50))
+              : const BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50),
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40),
+                ),
         ),
-        child:  SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               const _ZapatoConSombra(),
-              if(!isFullScreen)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 30),
-                child: _ZapatoTallas(),
-              ),
+              if (!isFullScreen)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30),
+                  child: _ZapatoTallas(),
+                ),
             ],
           ),
         ),
@@ -44,36 +46,36 @@ class _ZapatoConSombra extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(50),
+    final provider = Provider.of<ShoesProvider>(context);
+    int indexSizeSelected = provider.indexSizeSelected;
+    return Padding(
+      padding: const EdgeInsets.all(50),
       child: Stack(
         children: [
-          Image(image: AssetImage('assets/img/shoes/azul.png')),
+          Image(image: AssetImage(provider.itemShoes!.images[indexSizeSelected].image)),
         ],
       ),
     );
   }
 }
 
- 
 class _ZapatoTallas extends StatelessWidget {
   const _ZapatoTallas();
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ShoesProvider>(context);
+
     return ChangeNotifierProvider(
       create: (context) => _SelectButtonProvider(),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 5,
           children: [
-            _TallaZapatoCaja(7, 1),
-            _TallaZapatoCaja(7.5, 2),
-            _TallaZapatoCaja(8, 3),
-            _TallaZapatoCaja(8.5, 4),
-            _TallaZapatoCaja(9, 5),
-            _TallaZapatoCaja(9.5, 6),
+            for (var i = 0; i < provider.itemShoes!.sizes.length; i++)
+              _TallaZapatoCaja(provider.itemShoes!.sizes[i], (i + 1)),
           ],
         ),
       ),

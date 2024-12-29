@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../theme/styles/custom_colors.dart';
-import '../shop_detailt_screen.dart';
+ 
 import 'widgets.dart';
 
 class AgregarCarritoBoton extends StatelessWidget {

@@ -1,13 +1,18 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'widgets/widgets.dart';
+import '../models/shoes.dart';
+import '../models/shoes_provider.dart';
+import '../widgets/widgets.dart';
 
 class ShopDetailtScreeen extends StatelessWidget {
   const ShopDetailtScreeen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ShoesProvider>(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -34,10 +39,9 @@ class ShopDetailtScreeen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  const ZapatoDescription(
-                    title: 'Nike Air Max 720',
-                    description:
-                        'The Nike Air Max 720 goes bigger than ever before with Nike\'s tallest Air unit yet, offering more air underfoot for unimaginable, all-day comfort. Has Air Max gone too far? We hope so.',
+                  ZapatoDescription(
+                    title: provider.itemShoes!.name,
+                    description: provider.itemShoes!.description,
                   ),
                   _MontoBuyNow(),
                   const Padding(
@@ -147,18 +151,33 @@ class _ColoresYMas extends StatelessWidget {
   const _ColoresYMas();
   @override
   Widget build(BuildContext context) {
+    final colorsImages = Provider.of<ShoesProvider>(context).itemShoes!.images;
     return Row(
       children: [
-        const Expanded(
+          Expanded(
           child: SizedBox(
             height: 45,
             child: Stack(
-                        children: [
-            Positioned(left: 90, child: _CircleColor(color: Colors.red, index: 1)),
-            Positioned(left: 60, child: _CircleColor(color: Colors.blue, index: 2)),
-            Positioned(left: 30, child: _CircleColor(color: Colors.green, index: 3)),
-                        ],
-                      ),
+              children: [
+              for (var i = 0; i < colorsImages.length; i++)
+                Positioned(
+                  left: i * 30.0,
+                  child: GestureDetector(
+                    onTap: () {
+                      final provider = Provider.of<ShoesProvider>(context, listen: false);
+                      provider.indexSizeSelected= i;
+                    },
+                    child: _CircleColor(
+                      color: obtenerColor(colorsImages[i].name),
+                      index: i,
+                    ),
+                  ),
+                ),
+                // Positioned(left: 90, child: _CircleColor(color: Colors.red, index: 1)),
+                // Positioned(left: 60, child: _CircleColor(color: Colors.blue, index: 2)),
+                // Positioned(left: 30, child: _CircleColor(color: Colors.green, index: 3)),
+              ],
+            ),
           ),
         ),
         BottonCard(
@@ -174,7 +193,8 @@ class _ColoresYMas extends StatelessWidget {
 class _CircleColor extends StatelessWidget {
   final Color color;
   final int index;
-  const _CircleColor({Key? key, required this.color, required this.index}) : super(key: key);
+  const _CircleColor({Key? key, required this.color, required this.index})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

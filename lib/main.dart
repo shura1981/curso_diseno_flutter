@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'controllers/menu_app_controller.dart';
 import 'provider/current_view_provider.dart';
 import 'routes/app_route.dart';
+import 'screens/shop_screen/models/shoes.dart';
+import 'screens/shop_screen/models/shoes_provider.dart';
 import 'share_preference/preferences.dart';
 import 'theme/themechanger.dart';
 
@@ -15,6 +17,7 @@ void main() async {
           create: (_) => ThemeChanger(optionTheme: Preferences.optionTheme)),
       ChangeNotifierProvider(create: (_) => CurrentViewProvider()),
       ChangeNotifierProvider(create: (_) => MenuAppController()),
+      ChangeNotifierProvider(create: (_) => ShoesProvider(shoes[0])),
     ],
     child: const MyApp(),
   ));

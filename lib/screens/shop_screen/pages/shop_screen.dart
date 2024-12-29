@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../models/shoes_provider.dart';
+import '../widgets/widgets.dart';
 import 'shop_detailt_screen.dart';
-import 'widgets/widgets.dart';
 
 class ShopScreen extends StatelessWidget {
   const ShopScreen({Key? key}) : super(key: key);
@@ -9,6 +11,8 @@ class ShopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ShoesProvider>(context);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -42,16 +46,15 @@ class ShopScreen extends StatelessWidget {
                         child: const Hero(
                             tag: 'zapato-1',
                             child: Material(child: ZapatosSizePreview()))),
-                    const ZapatoDescription(
-                      title: 'Nike Air Max 720',
-                      description:
-                          'The Nike Air Max 720 goes bigger than ever before with Nike\'s tallest Air unit yet, offering more air underfoot for unimaginable, all-day comfort. Has Air Max gone too far? We hope so.',
+                    ZapatoDescription(
+                      title: provider.itemShoes!.name,
+                      description: provider.itemShoes!.description,
                     ),
                   ],
                 ),
               ),
             ),
-            const AgregarCarritoBoton(monto: 180.0)
+            AgregarCarritoBoton(monto: provider.itemShoes!.price),
           ],
         ),
       ),
