@@ -11,11 +11,11 @@ class ImagenDiscoDuracion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 80),
-      child:    Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const _ImagenDisco(),
-          const SizedBox(
+          _ImagenDisco(),
+          SizedBox(
             width: 10,
           ),
           _BarraProgreso(),
@@ -26,17 +26,26 @@ class ImagenDiscoDuracion extends StatelessWidget {
 }
 
 class _BarraProgreso extends StatelessWidget {
- 
+  const _BarraProgreso();
 
+  final totalHeight = 230.0;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          '00:00',
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.4),
-          ),
+        Consumer<AudioPlayerModel>(
+          builder: (_, audioPlayerModel, __) {
+            return Text(
+              audioPlayerModel.songTotalDuration,
+              style: TextStyle(
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .color!
+                    .withOpacity(0.4),
+              ),
+            );
+          },
         ),
         const SizedBox(
           height: 10,
@@ -45,28 +54,38 @@ class _BarraProgreso extends StatelessWidget {
           children: [
             Container(
               width: 3,
-              height: 230,
+              height: totalHeight,
               color: const Color.fromARGB(255, 111, 111, 111).withOpacity(0.1),
             ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                width: 3,
-                height: 100,
-                color: Theme.of(context).primaryColor.withOpacity(0.8),
-              ),
-            ),
+            Consumer<AudioPlayerModel>(
+                builder: (context, audioPlayerModel, __) {
+              final porcentaje = audioPlayerModel.porcentaje;
+              return Positioned(
+                bottom: 0,
+                child: Container(
+                  width: 3,
+                  height: totalHeight * porcentaje,
+                  color: Theme.of(context).primaryColor.withOpacity(0.8),
+                ),
+              );
+            }),
           ],
         ),
         const SizedBox(
           height: 10,
         ),
-         Text(
-          '03:50',
-          style: TextStyle(
-         color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.4),
-          ),
-        ),
+        Consumer<AudioPlayerModel>(builder: (_, audioPlayerModel, __) {
+          return Text(
+            audioPlayerModel.songCurrentDuration,
+            style: TextStyle(
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .color!
+                  .withOpacity(0.4),
+            ),
+          );
+        }),
       ],
     );
   }
@@ -77,8 +96,7 @@ class _ImagenDisco extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final audioProverModel= Provider.of<AudioPlayerModel>(context);
+    final audioProverModel = Provider.of<AudioPlayerModel>(context);
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -103,7 +121,7 @@ class _ImagenDisco extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(250),
-        child:  Stack(
+        child: Stack(
           alignment: Alignment.center,
           children: [
             SpinPerfect(
@@ -121,7 +139,7 @@ class _ImagenDisco extends StatelessWidget {
               height: 25,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-              color: Colors.black38,
+                color: Colors.black38,
               ),
             ),
             Container(
@@ -129,7 +147,7 @@ class _ImagenDisco extends StatelessWidget {
               height: 18,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-              color: const Color(0xff1C1C25),
+                color: const Color(0xff1C1C25),
               ),
             )
           ],

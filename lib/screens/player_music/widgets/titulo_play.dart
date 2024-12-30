@@ -22,22 +22,26 @@ class _TituloPlayState extends State<TituloPlay>
   Future<void> _initializePlayer() async {
     try {
       // Cargar el archivo desde los assets
-      await _audioPlayer
-          .setAsset('assets/music/Breaking-Benjamin-Far-Away.mp3');
-      // Obtener la duración del audio
-      _duration = await _audioPlayer.duration;
-      print(_duration);
-      setState(() {});
+  await _audioPlayer
+      .setAsset('assets/music/Breaking-Benjamin-Far-Away.mp3').then((value) {
+    // Obtener la duración del audio
+    _duration = value;
+    final provider = Provider.of<AudioPlayerModel>(context, listen: false);
+    provider.songDuration = _duration!;
+    setState(() {});
+  });
+   
     } catch (e) {
       print("Error inicializando el audio: $e");
     }
   }
 
   void _listenToPosition() {
+     final provider = Provider.of<AudioPlayerModel>(context, listen: false);
     _audioPlayer.positionStream.listen((position) {
       setState(() {
         _position = position;
-        print(_position);
+        provider.current = _position;
       });
     });
   }
@@ -60,6 +64,8 @@ class _TituloPlayState extends State<TituloPlay>
     _audioPlayer.dispose();
     super.dispose();
   }
+  
+
 
   @override
   Widget build(BuildContext context) {

@@ -41,11 +41,11 @@ class CustomTheme {
     ),
     textTheme: const TextTheme(
       bodyMedium: TextStyle(color: Colors.black87),
+      bodyLarge: TextStyle(color: Colors.black87),
       displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
       displayMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
       displaySmall: TextStyle(fontSize: 14, color: Colors.black87),
     ),
-    
   );
 
   static ThemeData dark = ThemeData.dark().copyWith(
@@ -87,14 +87,15 @@ class CustomTheme {
         backgroundColor: Color.fromARGB(255, 63, 63, 63),
       ),
       textTheme: const TextTheme(
-           bodyMedium: TextStyle(color: Colors.white),
+        bodyMedium: TextStyle(color: Colors.white),
+        bodyLarge: TextStyle(color: Colors.white),
         displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         displayMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         displaySmall:
             TextStyle(fontSize: 14, color: Color.fromARGB(221, 255, 255, 255)),
       ));
 
- // Obtener un tema personalizado basado en el brillo del sistema
+  // Obtener un tema personalizado basado en el brillo del sistema
   static ThemeData getCustom(Brightness brightness) {
     // Detectar si el sistema está en modo oscuro
     final baseTheme = brightness == Brightness.dark ? dark : light;
