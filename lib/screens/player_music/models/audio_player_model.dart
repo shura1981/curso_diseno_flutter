@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AudioPlayerModel with ChangeNotifier {
   bool isPlaying = false;
+  bool isStart = false;
   AnimationController? controller;
 
   Duration _songDuration = const Duration(milliseconds: 0);

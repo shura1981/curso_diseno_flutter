@@ -62,7 +62,11 @@ class AppRoute {
         icon: Icons.music_note,
         name: 'Player Music',
         screen: const PlayerMuiscScreen()),
-
+    MenuRouter(
+        route: ChangeScreenAnimationScreen.nameRoute,
+        icon: Icons.screen_lock_landscape,
+        name: 'Animation screen',
+        screen: const ChangeScreenAnimationScreen()),
   ];
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
     return MaterialPageRoute(builder: (context) => const NotFoundScreen());

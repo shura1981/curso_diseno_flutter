@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:kplayer/kplayer.dart';
+
 import 'package:provider/provider.dart';
 
 import '../models/audio_player_model.dart';
@@ -16,33 +17,25 @@ class _TituloPlayState extends State<TituloPlay>
   bool isPlaying = false;
   AnimationController? controller;
 
-  late AudioPlayer _audioPlayer;
-  Duration? _duration;
-  Duration _position = Duration.zero;
+  late PlayerController _audioPlayer;
+
   Future<void> _initializePlayer() async {
     try {
       // Cargar el archivo desde los assets
-  await _audioPlayer
-      .setAsset('assets/music/Breaking-Benjamin-Far-Away.mp3').then((value) {
-    // Obtener la duración del audio
-    _duration = value;
-    final provider = Provider.of<AudioPlayerModel>(context, listen: false);
-    provider.songDuration = _duration!;
-    setState(() {});
-  });
-   
+      _audioPlayer =
+          Player.asset("assets/music/Breaking-Benjamin-Far-Away.mp3");
     } catch (e) {
       print("Error inicializando el audio: $e");
     }
   }
 
   void _listenToPosition() {
-     final provider = Provider.of<AudioPlayerModel>(context, listen: false);
-    _audioPlayer.positionStream.listen((position) {
-      setState(() {
-        _position = position;
-        provider.current = _position;
-      });
+    final provider = Provider.of<AudioPlayerModel>(context, listen: false);
+    _audioPlayer.streams.duration.listen((event) {
+      provider.songDuration = event;
+    });
+    _audioPlayer.streams.position.listen((event) {
+      provider.current = event;
     });
   }
 
@@ -50,22 +43,16 @@ class _TituloPlayState extends State<TituloPlay>
   void initState() {
     controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
-    _audioPlayer = AudioPlayer();
-
-    _initializePlayer();
-    _listenToPosition();
-
     super.initState();
   }
 
   @override
   void dispose() {
     controller?.dispose();
-    _audioPlayer.dispose();
+    // dispose all players
+PlayerController.disposeAll();
     super.dispose();
   }
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +97,15 @@ class _TituloPlayState extends State<TituloPlay>
               } else {
                 controller!.forward();
               }
+
               isPlaying = !isPlaying;
-              isPlaying ? _audioPlayer.play() : _audioPlayer.stop();
+
+              if (!provider.isStart) {
+                _initializePlayer();
+                _listenToPosition();
+                provider.isStart = true;
+              }
+              if (provider.isStart) _audioPlayer.toggle();
             },
             child: AnimatedIcon(
               icon: AnimatedIcons.play_pause,
