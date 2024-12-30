@@ -21,7 +21,7 @@ mixin class ColorsTheme {
   static Color themePrimaryColorDarkScheme =
       const Color.fromRGBO(233, 30, 99, 1);
   static Color themeSecondaryColorDarkScheme = Colors.lightBlueAccent;
-  static Color themeBackgroundScaffold = const Color.fromARGB(255, 29, 29, 29);
+  static Color themeBackgroundScaffold = const Color(0xff201E28);
 
 // color orange
   static Color themePrimaryCustom = const Color.fromARGB(255, 255, 87, 34);

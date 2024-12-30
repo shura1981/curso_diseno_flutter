@@ -57,6 +57,11 @@ class AppRoute {
         icon: Icons.shop,
         name: 'Shop',
         screen: const ShopScreen()),
+    MenuRouter(
+        route: PlayerMuiscScreen.nameRoute,
+        icon: Icons.music_note,
+        name: 'Player Music',
+        screen: const PlayerMuiscScreen()),
 
   ];
   static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
