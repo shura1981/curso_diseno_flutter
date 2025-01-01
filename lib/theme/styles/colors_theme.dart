@@ -5,7 +5,7 @@ mixin class ColorsTheme {
   static Color colorIconMenuItem = Colors.white;
 
 //  ligth
-  static Color themePrimaryLight = Colors.lightBlue;
+  static Color themePrimaryLight = Color.fromARGB(255, 158, 54, 255);
   static Color themePrimaryColorLightDark =
       const Color.fromARGB(255, 18, 89, 210);
   static Color themePrimaryColorLight =

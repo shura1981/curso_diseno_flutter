@@ -19,24 +19,24 @@ class CustomTheme {
         customColorCard: ColorsTheme.themeCustomColorCard,
       ),
     ],
-    primaryColor: ColorsTheme.themePrimaryLight,
-    primaryColorDark: ColorsTheme.themePrimaryColorLightDark,
-    colorScheme: ColorScheme.light(
-      primary: ColorsTheme.themePrimaryColorLightScheme,
-      secondary: ColorsTheme.themeSecondaryColorLightScheme,
+    // primaryColor: ColorsTheme.themePrimaryLight,
+    // primaryColorDark: ColorsTheme.themePrimaryColorLightDark,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: ColorsTheme.themePrimaryLight,
+      brightness: Brightness.light,
     ),
     primaryColorLight: ColorsTheme.themePrimaryColorLight,
     canvasColor: Colors.grey[300],
     brightness: Brightness.light,
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      selectedItemColor: ColorsTheme.themePrimaryLight,
-      unselectedItemColor: const Color.fromARGB(255, 69, 69, 69),
-    ),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: ColorsTheme.themePrimaryColorLightDark,
-        foregroundColor: Colors.white),
+    // bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    //   selectedItemColor: ColorsTheme.themePrimaryLight,
+    //   unselectedItemColor: const Color.fromARGB(255, 69, 69, 69),
+    // ),
+    // floatingActionButtonTheme: FloatingActionButtonThemeData(
+    //     backgroundColor: ColorsTheme.themePrimaryColorLightDark,
+    //     foregroundColor: Colors.white),
     dividerTheme: const DividerThemeData(
-      color: Color.fromARGB(95, 57, 156, 255),
+      // color: Color.fromARGB(95, 57, 156, 255),
       thickness: 1,
     ),
     textTheme: const TextTheme(
@@ -65,10 +65,10 @@ class CustomTheme {
       primaryColor: ColorsTheme.themePrimaryDark,
       primaryColorDark: ColorsTheme.themePrimaryColorDark,
       primaryColorLight: ColorsTheme.themePrimaryColorLight,
-      colorScheme: ColorScheme.dark(
-        primary: ColorsTheme.themePrimaryColorDarkScheme,
-        secondary: ColorsTheme.themeSecondaryColorDarkScheme,
-      ),
+      colorScheme: ColorScheme.fromSeed(
+      seedColor: ColorsTheme.themePrimaryDark,
+      brightness: Brightness.dark,
+    ),
       canvasColor: const Color.fromARGB(255, 26, 26, 26),
       brightness: Brightness.dark,
       bottomNavigationBarTheme: BottomNavigationBarThemeData(

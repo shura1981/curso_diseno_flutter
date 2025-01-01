@@ -42,7 +42,7 @@ class _DesktopScreen extends StatelessWidget {
               color: Theme.of(context).primaryColor),
           Expanded(
             child: providerViewCurrent.currentView ??
-                const Center(child: Text('Home')),
+                const _HomeContainerScreen(),
           ),
         ],
       ),
@@ -71,11 +71,22 @@ class _TabletScreen extends StatelessWidget {
               color: Theme.of(context).primaryColor),
           Expanded(
             child: providerViewCurrent.currentView ??
-                const Center(child: Text('Home')),
+                const _HomeContainerScreen(),
           ),
         ],
       ),
     );
+  }
+}
+
+class _HomeContainerScreen extends StatelessWidget {
+  const _HomeContainerScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: FilledButton.tonal(onPressed: (){
+
+    }, child: const Text('Home')));
   }
 }
 
@@ -93,7 +104,7 @@ class _MobileScreen extends StatelessWidget {
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
       ),
-      body: const Center(child: Text('Home')),
+      body: const _HomeContainerScreen(),
     );
   }
 }
