@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../helpers/responsive.dart';
 import '../provider/current_view_provider.dart';
 import '../widgets/menu_drawer.dart';
+import '../widgets/shake_transition.dart';
 
 class HomeScreen extends StatelessWidget {
   static const nameRoute = '/home';
@@ -84,9 +85,12 @@ class _HomeContainerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: FilledButton.tonal(onPressed: (){
-
-    }, child: const Text('Home')));
+    return Center(child: ShakeTransition(
+      axis: Axis.vertical,
+      child: FilledButton.tonal(onPressed: (){
+      
+      }, child: const Text('Home')),
+    ));
   }
 }
 
